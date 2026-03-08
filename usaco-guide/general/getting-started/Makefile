@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -Wall -g
+CXXFLAGS = -Wall -Wextra -Wshadow -Wconversion -Wfloat-equal -Wduplicated-cond -Wlogical-op -g 
 
 %: %.cpp
 	${CXX} ${CXXFLAGS} $< -o test.exe && ./test.exe
