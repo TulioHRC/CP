@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+#include <numeric>
 
 #define _ std::ios_base::sync_with_stdio(0); std::cin.tie(0);
 
@@ -33,9 +34,24 @@ int main() { _
 			ss.push_back(aux);
 		}
 
-		// validate if all p and ss is divisible by p[n-1]
 		for (int i = 0; i < n; i++) {
-			if (p[i] % p[n - 1] != 0 || ss[i] % p[n - 1] != 0) {res = false; break;} 
+			ll ans_i = std::lcm(p[i], ss[i]);
+
+			// Primeiro sempre será igual ao p[0]
+			if (i == 0 && ans_i != p[0]) {res = false; break;}
+			// Ultimo sempre será igual ao p[n-1]
+			if (i == n-1 && ans_i != ss[n-1]) {res = false; break;}
+			// 72 - 24 - 03 - 03 - 03 - 03
+			// 03 - 03 - 03 - 06 - 12 - 144
+
+			// 72 - 24 - 3 - 6 - 12 - 144
+
+			// ans_i = ai
+			// gcd (a1, a2, a3, ..., ai) == p[i], gcd(a1, a2, a3, ..., ai-1) = p[i-1] => gcd(p[i-1], ai) = p[i]
+			if (i > 0 && std::gcd(p[i-1], ans_i) != p[i]) {res = false; break;}
+			
+			// gcd (ai, ai+1, ... an) = ss[i], gcd(ai+1, ai+2, ..., an) = ss[i+1] => gcd(ss[i+1], ai) = ss[i]
+			if (i < n-1 && std::gcd(ss[i+1], ans_i) != ss[i]) {res = false; break;}
 		}
 
 		if (res == true) {
