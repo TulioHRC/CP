@@ -28,33 +28,24 @@
     int main () { _
         int n, m; std::cin >> n >> m;
      
-        std::vector<std::pair<int, int>> new_roads(n, {-1, -1});
+        std::set<std::pair<int, int>> new_roads;
      
         int x, y;
         for (int i = 0; i < (n - 1); i++) {
             std::cin >> x >> y;
             x--;
             y--;
-     
-            if (new_roads[x].f == -1) {
-                new_roads[x].f = y;
-            } else {
-                new_roads[x].s = y;
-            }
-     
-            if (new_roads[y].f == -1) {
-                new_roads[y].f = x;
-            } else {
-                new_roads[y].s = x;
-            }
+            if (x > y) std::swap(x, y);
+            new_roads.insert({x, y});
         }
      
         for (int i = 0; i < m; i++) {
             std::cin >> x >> y;
             x--;
             y--;
+            if (x > y) std::swap(x, y);
      
-            if (new_roads[x].f == y || new_roads[x].s == y) {
+            if (new_roads.count({x, y})) {
                 nodes[x].connections.push_back(y);
                 nodes[y].connections.push_back(x);
             }
