@@ -7,10 +7,11 @@
 
 typedef long long ll;
 
-// Uses binary search to find max minimum
-
 int main() { _
-	
+
+	int n, k; std::cin >> n >> k;
+
+	std::cout << (n % 2 == 1 ? "naniim" : "theNewSon") << "\n";
 
 	return 0;
 }
