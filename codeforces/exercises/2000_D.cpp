@@ -13,37 +13,35 @@ int main() { _
 	while(t--) {
 		int n; std::cin >> n;
 
-		std::vector<int> a(n);
+		std::vector<ll> a(n);
 		std::string s;
 
 		for (int i = 0; i < n; i++) std::cin >> a[i];
 		std::cin >> s;
 
-		int first_L = -1;
-		int last_R = -1;
-		for (int i = 0; i < n; i++) {
-			if (first_L == -1 && s[i] == 'L') first_L = i;
-			if (s[i] == 'R') last_R = i;
+		std::vector<ll> sum_window(n);
+		sum_window[0] = a[0];
+		for (int i = 1; i < n; i++) {
+			sum_window[i] = sum_window[i-1] + a[i];
+		}
+
+		int l = 0;
+		int r = n - 1;
+		ll res = 0;
+		
+		while (l < r) {
+			for (; s[l] != 'L' && l < (n - 1); l++);
+			for (; s[r] != 'R' && r > 0; r--);
+
+			//std::cout << "L " << l << "R " << r << std::endl;
+		
+			if (l < r) {
+				res += sum_window[r] - sum_window[l] + a[l];
+				l++;
+				r--;
+			}
 		}
 		
-		int res = 0;
-		if (first_L < last_R) {
-			int sum = 0;
-			bool L_in = false;
-			for (int i = first_L + 1; i < last_R; i++) {
-				if (L_in == false) {
-					if (s[i] == 'L') {L_in = true; sum += a[i];}
-				} else {
-					sum += a[i];
-					if (s[i] == 'R' && (s[i+1] == 'L' || i + 1 == last_R)) {res += sum; sum = 0; L_in = false;}
-				}
-
-				res += a[i];
-			}
-
-			res += a[first_L];
-			res += a[last_R];
-		} 
 
 		std::cout << res << "\n";
 	}
