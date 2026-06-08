@@ -7,61 +7,29 @@
 
 typedef long long ll;
 
-int n, i, j, lastPos;
-std::vector<ll> h(3001);
-ll actual, last;
+int n;
+std::vector<ll> h(4e3), starting_from_i(4e3), right_maxes(4e3), left_maxes(4e3);
 
 void solve() {
 	std::cin >> n;
 
-	for (i = 0; i < n; i++) {
-		std::cin >> h[i];
-	}
+	for (int i = 0; i < n; i++) std::cin >> h[i];
 
-	for (i = 0; i < n; i++) {
-		actual = 0;
-		last = -1;
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < n; j++) starting_from_i[j] = h[(i + j)%n];
 
-		// First right
-		j = (i + 1) == n ? 0 : i + 1;
-		while (j != i) {
-			if (last == -1) {
-				last = std::min({h[j], h[i]});
-			} else if (h[lastPos] > last && h[j] > h[lastPos]) {
-				last = h[lastPos];
-			} else {
-				break;
-			}
+		right_maxes[0] = starting_from_i[0];
+		for (int j = 1; j < n; j++) right_maxes[j] = std::max(right_maxes[j - 1], starting_from_i[j]);
 
-			actual += last;
-			std::cout << "r" << last << " ";
+		left_maxes[n] = 0;
+		for (int j = n - 1; j > 0; j--) left_maxes[j] = std::max(left_maxes[j + 1], starting_from_i[j]);
 
-			lastPos = j;
-			j++;
-			if (j == n) j = 0;
+		ll res = 0;
+		for (int j = 0; j < n; j++) {
+			res += std::min(right_maxes[j], left_maxes[j + 1]);
 		}
-		std::cout << "\n";
 
-		// Second left
-		j = (i - 1) == -1 ? n - 1 : i - 1;
-		last = -1;
-		while (j != lastPos) {
-			if (last == -1) {
-				last = h[j];
-			} else {
-				last = (last > h[j]) ? last : h[j];
-			}
-
-			actual += last;
-			std::cout << "l" << last << " ";
-
-			j--;
-			if (j == -1) j = n - 1;
-		}
-		std::cout << "\n";
-
-
-		//std::cout << actual << " ";
+		std::cout << res << " ";
 	}
 	std::cout << "\n";
 }
