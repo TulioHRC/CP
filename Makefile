@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -Wall -Wextra -Wshadow -Wconversion -Wfloat-equal -Wduplicated-cond -Wlogical-op -g 
+CXXFLAGS = -Wall -Wextra -Wshadow -Wconversion -Wfloat-equal -Wduplicated-cond -Wlogical-op -pipe -O2
 
 %: %.cpp
 	@echo "Compiling $< ..."
@@ -8,7 +8,7 @@ CXXFLAGS = -Wall -Wextra -Wshadow -Wconversion -Wfloat-equal -Wduplicated-cond -
 	./test.exe
 
 %.cpp:
-	cp template.cpp $@
+	cp ../../template.cpp $@
 
 copy:
 	xclip -sel clip < ${f}
