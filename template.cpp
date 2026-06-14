@@ -18,7 +18,6 @@ int n;
 
 void solve() {
 	std::cin >> n;
-	debug(n);
 }
 
 int main() { _
