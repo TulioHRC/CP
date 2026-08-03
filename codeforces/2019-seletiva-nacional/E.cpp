@@ -14,34 +14,45 @@ void debug_func(T var, std::string var_name) {
 
 typedef long long ll;
 
-int main() { _
-	int n; std::cin >> n;
+int n, aux;
 
-	std::map<std::pair<char, int>, int> mappy;
+void solve() {
+	std::cin >> n;
+	std::vector<int> v;
 
-	int qtd = 0;
-	char c;
-	int color;
+	v.reserve(n);
+
 	for (int i = 0; i < n; i++) {
-		std::cin >> c >> color;
+		std::cin >> aux;
 
-		bool exist = mappy.find({c, color}) != mappy.end();
+		v.push_back(aux);
+	}
 
-		if (!exist) mappy[{c, color}] = 0;
+	// center finding
+	int center = -1;
+	for (int i = 0; i < n; i++) {
+		int sumL = 0;
+		int sumR = 0;
 
-		// other pair exist and has
-		if (
-			mappy.find({(c == 'E' ? 'D' : 'E'), color}) != mappy.end() && 
-			mappy[{(c == 'E' ? 'D' : 'E'), color}] > 0
-		) {
-			mappy[{(c == 'E' ? 'D' : 'E'), color}]--;
-			qtd++;
-		} else {
-			mappy[{c, color}]++;
+		for (int j = i - 1; j >= 0; j--) {
+			sumL += v[j] * (i - j);
+		}
+
+		for (int j = i + 1; j < n; j++) {
+			sumR += v[j] * (j - i);
+		}
+
+		if (sumL == sumR) {
+			center = i;
+			break;
 		}
 	}
 
-	std::cout << qtd << "\n";
+	std::cout << (center + 1) << "\n";
+}
+
+int main() { _
+	solve();
 
 	return 0;
 }
