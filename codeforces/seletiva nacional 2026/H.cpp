@@ -14,19 +14,28 @@ void debug_func(T var, std::string var_name) {
 
 typedef long long ll;
 
-ll n, k;
+ll rocks, max;
+
+ll lost_point(ll maxPoint) {
+	return maxPoint % 2 ? maxPoint / 2 : maxPoint / 2 - 1;
+}
 
 void solve() {
-	std::cin >> n >> k;
+	std::cin >> rocks >> max;
 
-	if (n == k) { std::cout << "Bob\n"; return; }
-	
-	while (k > n) {
-		k = k / 2;
-		if () {std::cout << "Bob\n"; return;};
+	bool Alice_lost = false;
+
+	ll actual_lost_cond = max;
+
+	while (actual_lost_cond > 0 && Alice_lost == false) {
+		if (rocks == actual_lost_cond) {
+			Alice_lost = true;
+		}
+
+		actual_lost_cond = lost_point(actual_lost_cond);
 	}
 
-	std::cout << "Alice" << "\n";
+	std::cout << (Alice_lost ? "Bob" : "Alice") << "\n";
 }
 
 int main() { _
